@@ -3,4 +3,5 @@
 
 - name: Prepare the nginx.conf config file
   template: src=nginx.conf.j2 dest=/usr/local/openresty/nginx/conf/nginx.conf mode=0644
+  sudo: yes
   notify: reload nginx
