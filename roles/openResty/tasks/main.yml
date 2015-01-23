@@ -10,19 +10,24 @@
    - libssl-dev
    - perl 
    - make
+  sudo: yes
   when: ansible_os_family == "Debian"
 
 - name: download ngx_openresty-VERSION
-  get_url: url={{openResty_url}} dest=/tmp mode=0440
+  get_url: url={{openResty_url}} dest=/tmp mode=0777
 
 - name: untar openResty_url
-  shell: tar -xvzf /tmp/ngx_openresty-{{version}}.tar.gz
+  shell: cd /tmp; tar -xvzf /tmp/ngx_openresty-{{version}}.tar.gz
 
 - name: configuring openResty_url
-  shell: /tmp/ngx_openresty-{{version}}/configure {{item}} --with-luajit --with-pcre-jit --with-http_spdy_module --with-http_ssl_module
+  shell: cd /tmp/ngx_openresty-{{version}} ;  ./configure --with-luajit --with-pcre-jit --with-http_spdy_module --with-http_ssl_module
   sudo: yes
 
 - name: run make
   shell: cd /tmp/ngx_openresty-{{version}}/ ; make; make install;
   sudo: yes
+
+- name: run make install
+ shell: cd /tmp/ngx_openresty-{{version}}/ ; make install;
+ sudo: yes
 

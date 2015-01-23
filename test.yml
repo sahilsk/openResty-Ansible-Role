@@ -4,3 +4,6 @@
   roles:
     - common
     - openResty
+
+ post_tasks:
+  - debug: msg="openResty Installed successfully!!"
