@@ -1,9 +1,10 @@
 ---
-# file: webservers.yml
+# file test.yml
+
 - hosts: loadBalancer
   roles:
     - common
     - openResty
 
- post_tasks:
+  post_tasks:
   - debug: msg="openResty Installed successfully!!"
