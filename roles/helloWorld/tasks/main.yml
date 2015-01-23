@@ -1,16 +1,6 @@
 ---
 #file tasks/main.yml
 
-- name: Prepare directory layout
-  file: path={{item}} state=directory
-  with_items:
-   - "/opt/helloWorld"
-   - "/opt/helloWorld/logs"
-   - "/opt/helloWorld/conf"
-
 - name: Prepare the nginx.conf config file
-  template: src=nginx.conf.j2 dest=/opt/helloWorld/conf/nginx.conf mode=0644
-
-- name: Start the Nginx server
-  shell: cd /opt/helloWorld; /usr/local/openresty/nginx/sbin/nginx -p `pwd`/ -c /opt/helloWorld/conf/nginx.conf
-  sudo: yes
+  template: src=nginx.conf.j2 dest=/usr/local/openresty/nginx/conf/nginx.conf mode=0644
+  notify: reload nginx

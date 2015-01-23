@@ -30,8 +30,9 @@
     PATH: /usr/local/openresty/nginx/sbin:{{ ansible_env.PATH }}
 
 - name: copy init script
-  template: src=nginx.j2 dest=/etc/init.d/nginx.conf mode=0755
+  template: src=nginx.j2 dest=/etc/init.d/nginx mode=0755
   register: conf_changed
+  sudo: yes
 
 - name: udpate init
   shell:  update-rc.d -f nginx defaults
