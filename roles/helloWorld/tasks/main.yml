@@ -4,12 +4,13 @@
 - name: Prepare directory layout
   file: path={{item}} state=directory
   with_items:
-  	- "/opt/helloWorld"
-  	- "/opt/helloWorld/logs"
-  	- "/opt/helloWorld/conf"
+   - "/opt/helloWorld"
+   - "/opt/helloWorld/logs"
+   - "/opt/helloWorld/conf"
 
 - name: Prepare the nginx.conf config file
-  template: src=/nginx.conf.j2 dest=/opt/helloWorld/confg/nginx.conf owner=root  mode=0644
+  template: src=nginx.conf.j2 dest=/opt/helloWorld/conf/nginx.conf mode=0644
 
 - name: Start the Nginx server
-  shell: nginx -p `pwd`/ -c /opt/helloWorld/conf/nginx.conf
+  shell: cd /opt/helloWorld; /usr/local/openresty/nginx/sbin/nginx -p `pwd`/ -c /opt/helloWorld/conf/nginx.conf
+  sudo: yes

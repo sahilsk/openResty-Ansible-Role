@@ -20,15 +20,22 @@
   shell: cd /tmp; tar -xvzf /tmp/ngx_openresty-{{version}}.tar.gz
 
 - name: configuring openResty_url
-  shell: cd /tmp/ngx_openresty-{{version}} ;  ./configure --with-luajit --with-pcre-jit --with-http_spdy_module --with-http_ssl_module
-  sudo: yes
-
-- name: run make
-  shell: cd /tmp/ngx_openresty-{{version}}/ ; make; make install;
+  shell: cd /tmp/ngx_openresty-{{version}} ;  ./configure  --prefix={{prefix}} --with-luajit --with-pcre-jit --with-http_spdy_module --with-http_ssl_module
   sudo: yes
 
 - name: run make install
- shell: cd /tmp/ngx_openresty-{{version}}/ ; make install;
- sudo: yes
- environment:
-   PATH:"/usr/local/openresty/nginx/sbin:$PATH"
+  shell: cd /tmp/ngx_openresty-{{version}}/ ; make ;  make install;
+  sudo: yes
+  environment:
+    PATH: /usr/local/openresty/nginx/sbin:{{ ansible_env.PATH }}
+
+- name: copy init script
+  template: src=nginx.j2 dest=/etc/init.d/nginx.conf mode=0755
+  register: conf_changed
+
+- name: udpate init
+  shell:  update-rc.d -f nginx defaults
+  when: ansible_os_family == "Debian"
+  sudo: yes
+  when: conf_changed|changed
+  notify: restart nginx

@@ -3,3 +3,4 @@
 
 openResty_url: "http://openresty.org/download/ngx_openresty-1.7.7.1.tar.gz"
 version: 1.7.7.1
+prefix: /usr/local/openresty
