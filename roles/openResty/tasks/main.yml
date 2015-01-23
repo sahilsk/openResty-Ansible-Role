@@ -1,0 +1,37 @@
+--------
+
+- name : install dependencies
+  apt:  name= {{item}} 
+  with_items:
+  	- libreadline-dev
+  	- libncurses5-dev
+  	- libpcre3-dev
+  	- libssl-dev
+  	- perl 
+  	- make
+  when: ansible_os_family == "Debian"
+
+- name: download ngx_openresty-VERSION
+  get_url: url={{openResty_url}} dest=/tmp mode=0440
+
+- name: untar openResty_url
+  shell: tar -xvzf /tmp/ngx_openresty-{{version}}.tar.gz
+
+- name: configuring openResty_url
+  shell: /tmp/ngx_openresty-{{version}}/configure {{item}}
+  with_items:
+  	- "--with-luajit"
+  	- "--with-pcre-jit"
+  	- "--with-http_spdy_module"
+  	- "--with-http_ssl_module"
+
+- name: run make
+  shell: cd /tmp/ngx_openresty-{{version}}/ ; make; make install;
+
+
+
+#tar xzvf ngx_openresty-VERSION.tar.gz
+#cd ngx_openresty-VERSION/
+#./configure --with-pcre-jit --with-ipv6
+#make
+#make install
