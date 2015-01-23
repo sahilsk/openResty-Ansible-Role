@@ -30,4 +30,5 @@
 - name: run make install
  shell: cd /tmp/ngx_openresty-{{version}}/ ; make install;
  sudo: yes
-
+ environment:
+   PATH:"/usr/local/openresty/nginx/sbin:$PATH"

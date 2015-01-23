@@ -1,0 +1,4 @@
+---
+#file defaults/main.yml
+
+my_message: "<p>hello, world</p>"
