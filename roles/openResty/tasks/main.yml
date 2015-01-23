@@ -1,6 +1,10 @@
 ---
 #file tasks/main.yml
 
+- name: 'check parm is null or invalid' 
+  fail: msg="Sorry. OpenResty setup steps are for Debian only for now."
+  when: ansible_os_family != "Debian"
+
 - name : install dependencies
   apt:  name={{item}}  state=present
   with_items:
@@ -11,7 +15,6 @@
    - perl 
    - make
   sudo: yes
-  when: ansible_os_family == "Debian"
 
 - name: download ngx_openresty-VERSION
   get_url: url={{openResty_url}} dest=/tmp mode=0777
@@ -19,7 +22,7 @@
 - name: untar openResty_url
   shell: cd /tmp; tar -xvzf /tmp/ngx_openresty-{{version}}.tar.gz
 
-- name: configuring openResty_url
+- name: configuring openResty
   shell: cd /tmp/ngx_openresty-{{version}} ;  ./configure  --prefix={{prefix}} --with-luajit --with-pcre-jit --with-http_spdy_module --with-http_ssl_module
   sudo: yes
 
@@ -36,7 +39,7 @@
 
 - name: udpate init
   shell:  update-rc.d -f nginx defaults
-  when: ansible_os_family == "Debian"
+#  when: ansible_os_family == "Debian"
   sudo: yes
   when: conf_changed|changed
   notify: restart nginx
