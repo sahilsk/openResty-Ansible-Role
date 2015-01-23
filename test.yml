@@ -7,4 +7,4 @@
     - helloWorld
 
   post_tasks:
-  - debug: msg="openResty Installed successfully!!"
+  - debug: msg="openResty Installed & helloWorld deployed successfully!!"
