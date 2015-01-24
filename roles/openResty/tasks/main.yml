@@ -23,7 +23,7 @@
   shell: cd /tmp; tar -xvzf /tmp/ngx_openresty-{{version}}.tar.gz
 
 - name: configuring openResty
-  shell: cd /tmp/ngx_openresty-{{version}} ;  ./configure  --prefix={{prefix}} --with-luajit --with-pcre-jit --with-http_spdy_module --with-http_ssl_module
+  shell: cd /tmp/ngx_openresty-{{version}} ;  ./configure  --prefix={{prefix}} --with-luajit --with-pcre --with-pcre-jit --with-http_spdy_module --with-http_ssl_module  --without-http_rds_csv_module  --without-http_redis_module  --without-http_redis2_module --without-http_coolkit_module --without-lua_resty_websocket
   sudo: yes
 
 - name: run make install
